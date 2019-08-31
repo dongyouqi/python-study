@@ -7,6 +7,7 @@ import threading
 from bs4 import BeautifulSoup
 import sys
 
+
 reload(sys)
 
 sys.setdefaultencoding('utf8')
@@ -39,8 +40,11 @@ def get_pic_list(html):
 
         rent = i.find('div', class_='houseInfo').get_text().strip()
         rent = rent.replace("\n",'')
+        dirPath = time.strftime("%Y%m%d", time.localtime())
+        fileName = time.strftime("%Y%m%d%H%M", time.localtime())
+        fileName = 'log/' + dirPath + '/' + fileName + '-feixi.log'
 
-        f = open('hf_binhuxinqu.log', 'a+')
+        f = open(fileName, 'a+')
         f.write(name + ' | ' + price  + ' | ' + rent  + '\n');
 
         # get_pic(link, text)
@@ -88,7 +92,10 @@ def execute(url):
 
 
 def main():
-    create_dir('bdz')
+
+    dirPath = time.strftime("%Y%m%d", time.localtime())
+    create_dir('log/' + dirPath)
+
     queue = [i for i in range(1, 19)]   # 构造 url 链接 页码。
     threads = []
     while len(queue) > 0:
@@ -99,7 +106,7 @@ def main():
             cur_page = queue.pop(0)
             
             #url = 'https://meizitu.com/a/more_{}.html'.format(cur_page)
-            url = 'https://hf.lianjia.com/xiaoqu/binhuxinqu/pg{}/'.format(cur_page)
+            url = 'https://hf.lianjia.com/xiaoqu/feixi/pg{}/'.format(cur_page)
 
             thread = threading.Thread(target=execute, args=(url,))
             thread.setDaemon(True)
