@@ -42,7 +42,7 @@ def get_pic_list(html):
         rent = rent.replace("\n",'')
         dirPath = time.strftime("%Y%m%d", time.localtime())
         fileName = time.strftime("%Y%m%d%H%M", time.localtime())
-        fileName = 'log/' + dirPath + '/' + fileName + '-feixi.log'
+        fileName = 'log/' + dirPath + '/' + fileName + '-xinzhan.log'
 
         f = open(fileName, 'a+')
         f.write(name + ' | ' + price  + ' | ' + rent  + '\n');
@@ -106,7 +106,7 @@ def main():
             cur_page = queue.pop(0)
             
             #url = 'https://meizitu.com/a/more_{}.html'.format(cur_page)
-            url = 'https://hf.lianjia.com/xiaoqu/feixi/pg{}/'.format(cur_page)
+            url = 'https://hf.lianjia.com/xiaoqu/xinzhan/pg{}/'.format(cur_page)
 
             thread = threading.Thread(target=execute, args=(url,))
             thread.setDaemon(True)

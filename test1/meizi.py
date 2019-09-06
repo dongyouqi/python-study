@@ -126,7 +126,8 @@ def main():
             cur_page = queue.pop(0)
             
             #url = 'https://meizitu.com/a/more_{}.html'.format(cur_page)
-            url = 'https://www.mzitu.com/xinggan/page/{}/'.format(cur_page)
+            url = 'https://www.mzitu.com/japan/page/{}/'.format(cur_page)
+
 
             thread = threading.Thread(target=execute, args=(url,))
             thread.setDaemon(True)
