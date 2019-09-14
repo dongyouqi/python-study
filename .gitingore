@@ -1,1 +1,7 @@
 test1/log/*/*
+test1/images
+test1/images/*/*  
+test1/imagesBak/
+test1/imagesBak/*
+
+
