@@ -35,9 +35,10 @@ def get_pic_list(html, refererUrl):
         a_tag = i.find('a')
 
         link = a_tag.get('href').strip()
-        dataoriginal = a_tag.find('img').get('data-original')
+        # dataoriginal = a_tag.find('img').get('data-original')
 
-        text = i.find('span').find('a').get_text();
+        text = i.find('span').find('a').get_text()
+        print(link)
 
         imageListPage(link, text)
 
@@ -61,7 +62,8 @@ def imageListPage(link, text):
 
         # print(_src)
         if(_src):
-            _t = [];
+            _t = []
+            
             imageList = soup.find('div', class_="pagenavi").find_all('a')
             for image in imageList:
                 pageHref = image.get('href')
@@ -93,7 +95,7 @@ def downloadImage(link, text, refererUrl):
     """
     下载图片
     """
-    create_dir('meizi/{}'.format(text))
+    create_dir('meiZi/{}'.format(text))
 
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:61.0) Gecko/20100101 Firefox/61.0"}
     headers['Referer'] = refererUrl
@@ -101,7 +103,7 @@ def downloadImage(link, text, refererUrl):
     r = requests.get(link, headers=headers)
     fileName = link.split('/')[-1]
 
-    with open('meizi/{}/{}'.format(text, fileName), 'wb') as f:
+    with open('meiZi/{}/{}'.format(text, fileName), 'wb') as f:
         f.write(r.content)
         time.sleep(1)   # 休息一下，不要给网站太大压力，避免被封
 
@@ -115,8 +117,8 @@ def execute(url):
 
 
 def main():
-    create_dir('meizi')
-    queue = [i for i in range(10, 20)]   # 构造 url 链接 页码。
+    create_dir('meiZi')
+    queue = [i for i in range(0, 10)]   # 构造 url 链接 页码。
     threads = []
     while len(queue) > 0:
         for thread in threads:
@@ -125,8 +127,9 @@ def main():
         while len(threads) < 5 and len(queue) > 0:   # 最大线程数设置为 5
             cur_page = queue.pop(0)
             
-            #url = 'https://meizitu.com/a/more_{}.html'.format(cur_page)
-            url = 'https://www.mzitu.com/japan/page/{}/'.format(cur_page)
+            # url = 'https://meizitu.com/a/more_{}.html'.format(cur_page)
+            url = 'https://www.mzitu.com/mm/page/{}/'.format(cur_page)
+            # url = 'https://www.mzitu.com/search/%E5%A4%A7%E8%83%B8/page/{}/'.format(cur_page)
 
 
             thread = threading.Thread(target=execute, args=(url,))

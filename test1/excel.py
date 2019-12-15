@@ -1,60 +1,41 @@
+# -*- coding:utf-8 -*-
 
-# -*- coding:UTF-8 -*-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
 
-import xlsxwriter
+import xlwt
+from datetime import datetime
+import chardet
 
-def get_chart(series):
+style0 = xlwt.easyxf('font: name Times New Roman, color-index red, bold on',
+    num_format_str='#,##0.00')
+style1 = xlwt.easyxf(num_format_str='D-MMM-YY')
 
-    chart = workbook.add_chart({'type': 'line'})
+wb = xlwt.Workbook()
+ws = wb.add_sheet('A Test Sheet')
 
-    for ses in series:
+ws.write(0, 0, 'id')
+ws.write(0, 1, 'name')
 
-        name = ses["name"]
+fileRead = open("./log/20191214/201912141252-feixi.log" , 'r')
+# fencoding = chardet.detect(fileRead.read())
+# print fencoding
 
-        values = ses["values"]
+i = 1
+for line in fileRead.readlines():
+        ws.write(i, 0, i)
+        # line.encode('utf-8')
+        # ws.write(i, 1, line.encode('utf-8'))
+        i = i + 1
 
-        chart.add_series({ 
 
-            'name': name,
+fileRead.close()
 
-            'categories': 'A2:A10',
+# ws.write(0, 0, 1234.56, style0)
+# ws.write(1, 0, datetime.now(), style1)
+# ws.write(2, 0, 1)
+# ws.write(2, 1, 1)
+# ws.write(2, 2, xlwt.Formula("A3+B3"))
 
-            'values':values
-
-        })  
-
-    chart.set_size({'width': 700, 'height': 350}) 
-
-    return chart
-
- 
-
-if __name__ == '__main__':
-
-    workbook = xlsxwriter.Workbook('xxx.xlsx')
-
-    worksheet = workbook.add_worksheet("xx,UV")
-
-    headings = ['日期', '平均值']
-
-    worksheet.write_row('A1', headings)
-
-    index=0
-
-    for row in range(1,10):
-
-        for com in [0,1]:
-
-            worksheet.write(row,com,index)
-
-            index+=1  
-
-    series = [{"name":"平均值","values":"B2:B10"}]
-
-    chart = get_chart(series)
-
-    chart.set_title ({'name': '每日页面分享数据'})  
-
-    worksheet.insert_chart('H7', chart)
-
-    workbook.close()
+wb.save('xx.xls')
